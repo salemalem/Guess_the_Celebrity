@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@id/celebrityImageView"
+            app:layout_column="0"
+            app:layout_row="0"
+            app:layout_gravity="fill"
+            android:contentDescription="@string/todo" />
+
+        <Button
+            android:id="@+id/chooseCelebButton1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="celebChosen"
+            android:text=""
+            android:tag="0"
+            app:layout_column="0"
+            app:layout_gravity="fill"
+            app:layout_row="1" />
+
+        <Button
+            android:id="@+id/chooseCelebButton2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="celebChosen"
+            android:text=""
+            android:tag="1"
+            app:layout_column="0"
+            app:layout_row="2"
+            app:layout_gravity="fill" />
+
+        <Button
+            android:id="@+id/chooseCelebButton3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="celebChosen"
+            android:text=""
+            android:tag="2"
+            app:layout_column="0"
+            app:layout_row="3"
+            app:layout_gravity="fill" />
+
+        <Button
+            android:id="@+id/chooseCelebButton4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="celebChosen"
+            android:text=""
+            android:tag="3"
+            app:layout_column="0"
+            app:layout_row="4"
+            app:layout_gravity="fill" />
+
+    </androidx.gridlayout.widget.GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
