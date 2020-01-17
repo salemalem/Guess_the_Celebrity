@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -28,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> celebrityPhotos = new ArrayList<>();
     ArrayList<String> celebrityNames  = new ArrayList<>();
     int celebrityChosen = 0;
+    int locationOfCorrectAnswer = 0;
+    String[] answers = new String[4];
 
     ImageView celebrityImageView;
-
+    Button button0, button1, button2, button3;
 
 
     public class DownloadCelebrity extends AsyncTask<String, Void, String> {
@@ -100,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         celebrityImageView = (ImageView)findViewById(R.id.celebrityImageView);
+        button0 = (Button)findViewById(R.id.chooseCelebButton1);
+        button1 = (Button)findViewById(R.id.chooseCelebButton2);
+        button2 = (Button)findViewById(R.id.chooseCelebButton3);
+        button3 = (Button)findViewById(R.id.chooseCelebButton4);
 
         DownloadCelebrity task = new DownloadCelebrity();
         String html = null;
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             html = task.execute("http://www.posh24.se/kandisar").get();
             String[] splittedHtml = html.split("<div class=\"sidebarContainer\">");
 //            Log.i("Celebrities:", Arrays.toString(splittedHtml));
-            Pattern pattern = Pattern.compile("src=\"(.*?)\"");
+            Pattern pattern = Pattern.compile("<img src=\"(.*?)\"");
             Matcher matcher = pattern.matcher(splittedHtml[0]);
 //            Log.i("Celebrities", result);
             while (matcher.find()) {
@@ -130,7 +137,26 @@ public class MainActivity extends AppCompatActivity {
             Bitmap celebrityImageBitmap;
             celebrityImageBitmap = imageTask.execute(celebrityPhotos.get(celebrityChosen)).get();
             celebrityImageView.setImageBitmap(celebrityImageBitmap);
-//            Log.i("Finish", celebrityPhotos.get(celebrityChosen));
+
+            locationOfCorrectAnswer = random.nextInt(4);
+            int locationOfIncorrectAnswer;
+
+            for (int i = 0; i < 4; i++) {
+                if (i == locationOfCorrectAnswer) {
+                    answers[i] = celebrityNames.get(celebrityChosen);
+                } else {
+                    locationOfIncorrectAnswer = random.nextInt(celebrityNames.size());
+
+                    while (locationOfIncorrectAnswer == celebrityChosen) {
+                        locationOfIncorrectAnswer = random.nextInt(celebrityNames.size());
+                    }
+                    answers[i] = celebrityNames.get(locationOfIncorrectAnswer);
+                }
+                button0.setText(answers[0]);
+                button1.setText(answers[1]);
+                button2.setText(answers[2]);
+                button3.setText(answers[3]);
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
