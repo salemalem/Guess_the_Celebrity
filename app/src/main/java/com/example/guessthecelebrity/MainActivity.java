@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
     ImageView celebrityImageView;
     Button button0, button1, button2, button3;
 
+
+    public void celebChosen(View view) {
+        if (view.getTag().toString() == Integer.toString(locationOfCorrectAnswer)) {
+            Toast.makeText(getApplicationContext(), "Correct!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Wrong! It was " + celebrityNames.get(celebrityChosen), Toast.LENGTH_LONG).show();
+        }
+    }
 
     public class DownloadCelebrity extends AsyncTask<String, Void, String> {
 
@@ -91,10 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
-    }
-
-    public void celebChosen(View view) {
-
     }
 
     @Override
