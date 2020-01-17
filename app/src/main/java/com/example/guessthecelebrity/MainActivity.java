@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Wrong! It was " + celebrityNames.get(celebrityChosen), Toast.LENGTH_LONG).show();
         }
+        createNewQuestion();
     }
 
     public class DownloadCelebrity extends AsyncTask<String, Void, String> {
@@ -102,6 +103,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void createNewQuestion() {
+        Random random = new Random();
+        celebrityChosen = random.nextInt(celebrityNames.size());
+
+        CelebrityPhotoDownloader imageTask = new CelebrityPhotoDownloader();
+        Bitmap celebrityImageBitmap;
+        try {
+            celebrityImageBitmap = imageTask.execute(celebrityPhotos.get(celebrityChosen)).get();
+            celebrityImageView.setImageBitmap(celebrityImageBitmap);
+
+            locationOfCorrectAnswer = random.nextInt(4);
+            int locationOfIncorrectAnswer;
+
+            for (int i = 0; i < 4; i++) {
+                if (i == locationOfCorrectAnswer) {
+                    answers[i] = celebrityNames.get(celebrityChosen);
+                } else {
+                    locationOfIncorrectAnswer = random.nextInt(celebrityNames.size());
+
+                    while (locationOfIncorrectAnswer == celebrityChosen) {
+                        locationOfIncorrectAnswer = random.nextInt(celebrityNames.size());
+                    }
+                    answers[i] = celebrityNames.get(locationOfIncorrectAnswer);
+                }
+                button0.setText(answers[0]);
+                button1.setText(answers[1]);
+                button2.setText(answers[2]);
+                button3.setText(answers[3]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,33 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 celebrityNames.add(matcher.group(1));
             }
 
-            Random random = new Random();
-            celebrityChosen = random.nextInt(celebrityNames.size());
-
-            CelebrityPhotoDownloader imageTask = new CelebrityPhotoDownloader();
-            Bitmap celebrityImageBitmap;
-            celebrityImageBitmap = imageTask.execute(celebrityPhotos.get(celebrityChosen)).get();
-            celebrityImageView.setImageBitmap(celebrityImageBitmap);
-
-            locationOfCorrectAnswer = random.nextInt(4);
-            int locationOfIncorrectAnswer;
-
-            for (int i = 0; i < 4; i++) {
-                if (i == locationOfCorrectAnswer) {
-                    answers[i] = celebrityNames.get(celebrityChosen);
-                } else {
-                    locationOfIncorrectAnswer = random.nextInt(celebrityNames.size());
-
-                    while (locationOfIncorrectAnswer == celebrityChosen) {
-                        locationOfIncorrectAnswer = random.nextInt(celebrityNames.size());
-                    }
-                    answers[i] = celebrityNames.get(locationOfIncorrectAnswer);
-                }
-                button0.setText(answers[0]);
-                button1.setText(answers[1]);
-                button2.setText(answers[2]);
-                button3.setText(answers[3]);
-            }
+            createNewQuestion();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
